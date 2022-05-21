@@ -23,7 +23,6 @@ public class Book {
         this.authorList = authorList;
     }
 
-
     public String getIsbn() {
         return isbn;
     }
@@ -55,6 +54,7 @@ public class Book {
     public void setCopyright(String copyright) {
         this.copyright = copyright;
     }
+
 
     public List<Author> getAuthorList() {
         return authorList;
