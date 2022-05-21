@@ -17,11 +17,14 @@ public class Book {
         this.authorList =new LinkedList<>();
     }
 
+<<<<<<< HEAD
     public Book(String isbn, String title, int additionNumber, String copyright, List<Author> authorList) {
         this(isbn,title,additionNumber,copyright);
         this.authorList = authorList;
     }
 
+=======
+>>>>>>> 3721c968410accef074e38f1ff1f84c73526c855
     public String getIsbn() {
         return isbn;
     }
@@ -53,6 +56,7 @@ public class Book {
     public void setCopyright(String copyright) {
         this.copyright = copyright;
     }
+<<<<<<< HEAD
 
     public List<Author> getAuthorList() {
         return authorList;
@@ -61,4 +65,6 @@ public class Book {
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
     }
+=======
+>>>>>>> 3721c968410accef074e38f1ff1f84c73526c855
 }
