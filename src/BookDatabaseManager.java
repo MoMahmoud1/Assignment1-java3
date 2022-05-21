@@ -16,12 +16,18 @@ public class BookDatabaseManager {
          ){
             String SqlQuery = "SELECT * FROM titles";
             ResultSet resultSet = statement.executeQuery(SqlQuery);
-            System.out.println("ISBN \t\t\t Title");
-            while (resultSet.next()){
-
-                System.out.printf("\n%s\t\t\t %s",
-                        resultSet.getString("isbn"),resultSet.getString("title"));
+            while (resultSet.next()) {
+                bookList.add(new Book(resultSet.getString(BookDatabaseSQL.Book_COL_NAME_ISBN),
+                        resultSet.getString(BookDatabaseSQL.Book_COL_NAME_TITLE),
+                        resultSet.getInt(BookDatabaseSQL.Book_COL_NAME_EDITION_NUMBER),
+                        resultSet.getString(BookDatabaseSQL.Book_COL_NAME_COPYRIGHT)));
             }
+//            System.out.println("ISBN \t\t\t Title");
+//            while (resultSet.next()){
+//
+//                System.out.printf("\n%s\t\t\t %s",
+//                        resultSet.getString("isbn"),resultSet.getString("title"));
+//            }
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,8 +50,10 @@ public class BookDatabaseManager {
         public static final String USER= "root";
         public static final String PASS= "Mohamed@12345";
 
-        public static final String Book_TABLE_NAME= "title";
-
-
+        public static final String Book_TABLE_NAME= "titles";
+        public static final String Book_COL_NAME_ISBN= "isbn";
+        public static final String Book_COL_NAME_TITLE= "title";
+        public static final String Book_COL_NAME_EDITION_NUMBER= "editionNumber";
+        public static final String Book_COL_NAME_COPYRIGHT= "copyright";
     }
 }

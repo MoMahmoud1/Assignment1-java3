@@ -1,3 +1,4 @@
+import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -62,6 +63,13 @@ public class Book {
 
     public void setAuthorList(List<Author> authorList) {
         this.authorList = authorList;
+    }
+
+    public void printBookInfo(PrintStream printStream){
+        printStream.printf("\nISBN: %s \t\t Title: %s \t\t Edition: %d \t\t Copyright: %s",
+                this.getIsbn(),this.getTitle(),this.getAdditionNumber(),this.getCopyright());
+
+
     }
 
 }
