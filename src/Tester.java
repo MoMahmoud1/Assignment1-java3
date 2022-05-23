@@ -19,11 +19,24 @@ public class Tester {
             System.out.println("Enter 6 to Quit");
 
             choice = input.nextInt();
-            if (choice==1){ bookList.forEach(book -> book.printBookInfo(System.out));
+            if (choice==1){
+                bookList.forEach(book -> book.printBookInfo(System.out));
             }
             else if(choice == 2){
                 System.out.println("Enter Isbn");
                 String isbn = input.next();
+                BookDatabaseManager.getBookISBN(isbn).printBookInfo(System.out);
+            }
+            else if(choice == 3){
+                System.out.println("Enter ISBN");
+                String isbn = input.next();
+                System.out.println("Enter title");
+                String title = input.next();
+                System.out.println("Enter edition number ");
+                int number = input.nextInt();
+                System.out.println("Enter year");
+                String year = input.next();
+                BookDatabaseManager.insertBook(new Book("",title,number,year));
                 BookDatabaseManager.getBookISBN(isbn).printBookInfo(System.out);
             }
 
