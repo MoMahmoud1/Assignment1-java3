@@ -66,7 +66,7 @@ public class Book {
     }
 
     public void printBookInfo(PrintStream printStream){
-        printStream.printf("\nISBN: %s \t\t Title: %s \t\t Edition: %d \t\t Copyright: %s",
+        printStream.printf("\nISBN: %s \t\t Title: %-80s \t\t Edition: %d \t\t Copyright: %s",
                 this.getIsbn(),this.getTitle(),this.getAdditionNumber(),this.getCopyright());
 
 

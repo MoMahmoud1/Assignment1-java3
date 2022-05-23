@@ -22,18 +22,33 @@ public class BookDatabaseManager {
                         resultSet.getInt(BookDatabaseSQL.Book_COL_NAME_EDITION_NUMBER),
                         resultSet.getString(BookDatabaseSQL.Book_COL_NAME_COPYRIGHT)));
             }
-//            System.out.println("ISBN \t\t\t Title");
-//            while (resultSet.next()){
-//
-//                System.out.printf("\n%s\t\t\t %s",
-//                        resultSet.getString("isbn"),resultSet.getString("title"));
-//            }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return bookList;
     }
+
+    public static List<Book> getBookISBN(String isbn){
+        LinkedList bookList = new LinkedList();
+        try (
+                Connection connection = getConnection();
+                Statement statement = connection.createStatement();
+        ){
+            String SqlQuery = "SELECT * FROM "+BookDatabaseSQL.Book_TABLE_NAME;
+            ResultSet resultSet = statement.executeQuery(SqlQuery);
+            while (resultSet.next()) {
+                bookList.add(new Book(resultSet.getString(BookDatabaseSQL.Book_COL_NAME_ISBN),
+                        resultSet.getString(BookDatabaseSQL.Book_COL_NAME_TITLE),
+                        resultSet.getInt(BookDatabaseSQL.Book_COL_NAME_EDITION_NUMBER),
+                        resultSet.getString(BookDatabaseSQL.Book_COL_NAME_COPYRIGHT)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bookList;
+    }
+
+
 
     public static boolean insertBook(){
         boolean insertSuccess = true;
