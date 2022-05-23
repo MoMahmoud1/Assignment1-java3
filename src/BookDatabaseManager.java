@@ -28,24 +28,30 @@ public class BookDatabaseManager {
         return bookList;
     }
 
-    public static List<Book> getBookISBN(String isbn){
-        LinkedList bookList = new LinkedList();
+    public static Book getBookISBN(String isbn){
+
         try (
                 Connection connection = getConnection();
-                Statement statement = connection.createStatement();
+
         ){
-            String SqlQuery = "SELECT * FROM "+BookDatabaseSQL.Book_TABLE_NAME;
-            ResultSet resultSet = statement.executeQuery(SqlQuery);
+            String SqlQuery = "SELECT * FROM "+BookDatabaseSQL.Book_TABLE_NAME +
+                    " where "+BookDatabaseSQL.Book_COL_NAME_ISBN+" = ? ";
+            PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery);
+            preparedStatement.setString(1,isbn);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
             while (resultSet.next()) {
-                bookList.add(new Book(resultSet.getString(BookDatabaseSQL.Book_COL_NAME_ISBN),
-                        resultSet.getString(BookDatabaseSQL.Book_COL_NAME_TITLE),
-                        resultSet.getInt(BookDatabaseSQL.Book_COL_NAME_EDITION_NUMBER),
-                        resultSet.getString(BookDatabaseSQL.Book_COL_NAME_COPYRIGHT)));
+                 return new Book(
+                         resultSet.getString(BookDatabaseSQL.Book_COL_NAME_ISBN),
+                         resultSet.getString(BookDatabaseSQL.Book_COL_NAME_TITLE),
+                         resultSet.getInt(BookDatabaseSQL.Book_COL_NAME_EDITION_NUMBER),
+                         resultSet.getString(BookDatabaseSQL.Book_COL_NAME_COPYRIGHT)
+                 );
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return bookList;
+        return null;
     }
 
 
