@@ -19,10 +19,10 @@ public class Book {
     }
 
 
-    public Book(String isbn, String title, int additionNumber, String copyright, List<Author> authorList) {
-        this(isbn,title,additionNumber,copyright);
-        this.authorList = authorList;
-    }
+//    public Book(String isbn, String title, int additionNumber, String copyright, List<Author> authorList) {
+//        this(isbn,title,additionNumber,copyright);
+//        this.authorList = authorList;
+//    }
 
     public String getIsbn() {
         return isbn;

@@ -29,15 +29,19 @@ public class Tester {
             }
             else if(choice == 3){
                 System.out.println("Enter ISBN");
-                String isbn = input.next();
+                String isbn1 = input.next();
                 System.out.println("Enter title");
                 String title = input.next();
                 System.out.println("Enter edition number ");
                 int number = input.nextInt();
                 System.out.println("Enter year");
                 String year = input.next();
-                BookDatabaseManager.insertBook(new Book("",title,number,year));
-                BookDatabaseManager.getBookISBN(isbn).printBookInfo(System.out);
+                BookDatabaseManager.insertBook(new Book(isbn1,title,number,year));
+                BookDatabaseManager.getBookISBN(isbn1).printBookInfo(System.out);
+                System.out.println("\n"+title+" Has been added");
+//                BookDatabaseManager.getBookISBN(isbn1).printBookInfo(System.out);
+                bookList.forEach(book -> book.printBookInfo(System.out));
+
             }
 
 

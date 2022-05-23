@@ -35,7 +35,7 @@ public class BookDatabaseManager {
 
         ){
             String SqlQuery = "SELECT * FROM "+BookDatabaseSQL.Book_TABLE_NAME +
-                    " where "+BookDatabaseSQL.Book_COL_NAME_ISBN+" = ? ";
+                    " where "+BookDatabaseSQL.Book_COL_NAME_ISBN+" =? ";
             PreparedStatement preparedStatement = connection.prepareStatement(SqlQuery);
             preparedStatement.setString(1,isbn);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -81,26 +81,26 @@ public class BookDatabaseManager {
 //    }
 
 
-    public static boolean insertBook( Book book){
+    public static void insertBook( Book book){
 
         try ( Connection connection =getConnection();
+
         ){
 
-            String sqlQuery = " INSERT INTO " + BookDatabaseSQL.Book_TABLE_NAME +
-                    " VALUES (?,?,?,?)";
+            String sqlQuery = "INSERT into "+ BookDatabaseSQL.Book_TABLE_NAME +
+                    " Values (?, ?, ?, ?)";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
             preparedStatement.setString(1, book.getIsbn());
             preparedStatement.setString(2, book.getTitle());
             preparedStatement.setInt(3,book.getAdditionNumber());
             preparedStatement.setString(4, book.getCopyright());
+            ResultSet resultSet = preparedStatement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
-            return false;
         }
 
-        return true;
     }
 
 
