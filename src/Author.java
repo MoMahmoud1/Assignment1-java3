@@ -1,4 +1,3 @@
-import java.io.PrintStream;
 import java.util.List;
 
 public class Author {
@@ -6,16 +5,6 @@ public class Author {
     private String firstName;
     private String lastName;
     private List<Book> bookList;
-
-    public Author() {
-    }
-
-    public Author(int id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-
-    }
 
     public Author(int id, String firstName, String lastName, List<Book> bookList) {
         this.id = id;
@@ -55,11 +44,4 @@ public class Author {
     public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
     }
-
-    public void printAuthorsInfo(PrintStream printStream){
-        printStream.printf("\nAuthor ID: %d \t\t First Name: %s \t\t Last Name: %s",
-                this.getId(),this.getFirstName(),this.getLastName());
-
-    }
-
 }

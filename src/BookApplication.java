@@ -6,7 +6,10 @@ public class BookApplication {
         Scanner input= new Scanner(System.in);
         List<Book> bookList = BookDatabaseManager.getAllBooks();
         List<Author> authorList = BookDatabaseManager.getAllAuthors();
+<<<<<<< HEAD
         BookDatabaseManager bookDatabaseManager = new BookDatabaseManager();
+=======
+>>>>>>> origin/master
 
 
         int choice;
@@ -23,6 +26,7 @@ public class BookApplication {
 
             choice = input.nextInt();
             if (choice==1){
+<<<<<<< HEAD
                 for(Book book : bookDatabaseManager.getBookList()){
                     System.out.println("Title: " + book.getTitle());
                     System.out.println("ISBN: " + book.getIsbn());
@@ -56,6 +60,18 @@ public class BookApplication {
 //                    System.out.println("Books: " + bookString + "\n");
                 }
 
+=======
+                bookList.forEach(book -> book.printBookInfo(System.out));
+                System.out.println("\n Author");
+                authorList.forEach(author -> author.printAuthorsInfo(System.out));
+                // add author
+            }
+            else if(choice == 2){
+
+                System.out.println("Enter Isbn");
+                String isbn = input.next();
+                BookDatabaseManager.getBookISBN(isbn).printBookInfo(System.out);
+>>>>>>> origin/master
             }
             else if(choice == 3){
                 System.out.println("Enter ISBN");
