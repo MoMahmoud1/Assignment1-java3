@@ -1,4 +1,5 @@
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,22 +9,22 @@ public class Book {
     private String title;
     private int additionNumber;
     private String copyright;
-    private List<Author> authorList;
+    private List<Author> authorList = new ArrayList<>();
 
     public Book(String isbn, String title, int additionNumber, String copyright) {
         this.isbn = isbn;
         this.title = title;
         this.additionNumber = additionNumber;
         this.copyright = copyright;
-        this.authorList =new LinkedList<>();
     }
 
     public Book() {
     }
-//    public Book(String isbn, String title, int additionNumber, String copyright, List<Author> authorList) {
-//        this(isbn,title,additionNumber,copyright);
-//        this.authorList = authorList;
-//    }
+    public Book(String isbn, String title, int additionNumber, String copyright, List<Author> authorList) {
+        this(isbn,title,additionNumber,copyright);
+        this.authorList = authorList;
+    }
+
 
     public String getIsbn() {
         return isbn;

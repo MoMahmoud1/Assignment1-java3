@@ -24,7 +24,7 @@ public class Tester {
             if (choice==1){
                 bookList.forEach(book -> book.printBookInfo(System.out));
                 System.out.println("\n Author");
-                authorList.forEach(author -> author.printAuthorsInfo(System.out));
+                authorList.forEach(author -> author.printAuthorInfo(System.out));
                 // add author
             }
             else if(choice == 2){
@@ -53,7 +53,7 @@ public class Tester {
             }
             else if(choice == 4){
 
-                authorList.forEach(author -> author.printAuthorsInfo(System.out));
+                authorList.forEach(author -> author.printAuthorInfo(System.out));
             }else if(choice == 5){
                 System.out.println("Enter Author ID : ");
                 int id = input.nextInt();
@@ -63,7 +63,7 @@ public class Tester {
                 String last = input.next();
                 BookDatabaseManager.insertAuthor(new Author(id,first,last));
                 System.out.println("\n"+first+" Has been added");
-                authorList.forEach(author -> author.printAuthorsInfo(System.out));
+                authorList.forEach(author -> author.printAuthorInfo(System.out));
                 // done
             }
             else {break;}
