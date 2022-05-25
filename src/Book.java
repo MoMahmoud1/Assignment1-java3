@@ -18,7 +18,8 @@ public class Book {
         this.authorList =new LinkedList<>();
     }
 
-
+    public Book() {
+    }
 //    public Book(String isbn, String title, int additionNumber, String copyright, List<Author> authorList) {
 //        this(isbn,title,additionNumber,copyright);
 //        this.authorList = authorList;

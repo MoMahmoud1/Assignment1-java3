@@ -1,11 +1,12 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class Tester {
+public class BookApplication {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner input= new Scanner(System.in);
         List<Book> bookList = BookDatabaseManager.getAllBooks();
         List<Author> authorList = BookDatabaseManager.getAllAuthors();
+        BookDatabaseManager bookDatabaseManager = new BookDatabaseManager();
 
 
         int choice;
@@ -13,25 +14,48 @@ public class Tester {
         do {
             System.out.println("\n\nWelcome to Book Store");
             System.out.println("Navigation Menu");
-            System.out.println("Enter 1 to Print all the books from the database ");
-            System.out.println("Enter 2 to show book Info by ISBN ");
-            System.out.println("Enter 3 to Add book");
+            System.out.println("Enter 1 to Print all the books from the database (showing the authors)");
+            System.out.println("Enter 2 to Print all the authors from the database (showing the books)");
+            System.out.println("Enter 3 to Add a book to the database for an existing author ");
             System.out.println("Enter 4 to show authors Books");
             System.out.println("Enter 5 to Add a new author");
             System.out.println("Enter 6 to Quit");
 
             choice = input.nextInt();
             if (choice==1){
-                bookList.forEach(book -> book.printBookInfo(System.out));
-                System.out.println("\n Author");
-                authorList.forEach(author -> author.printAuthorsInfo(System.out));
-                // add author
+                for(Book book : bookDatabaseManager.getBookList()){
+                    System.out.println("Title: " + book.getTitle());
+                    System.out.println("ISBN: " + book.getIsbn());
+                    System.out.println("Edition: " + book.getAdditionNumber());
+                    System.out.println("Copyright: " + book.getCopyright());
+                    book.getAuthorList().forEach(author -> author.printAuthorsInfo(System.out));
+                    System.out.println("\n");
+                }
+
+
             }
             else if(choice == 2){
+                for(Author author : bookDatabaseManager.getAuthorList()) {
+                    System.out.println("Author ID: " + author.getId());
+                    System.out.println("First Name: " + author.getFirstName());
+                    System.out.println("Last Name: " + author.getLastName());
+//                    String bookString = "";
+//                    int count = 0;
+//                    for (Book book : author.getBookList()) {
+//                        if (author.getBookList().size() == 1){
+//                            bookString += book.getTitle();
+//                        }else if ((count + 1) == author.getBookList().size()) {
+//                            bookString += "and " + book.getTitle();
+//                        } else if (book.getAuthorList().size() == 2) {
+//                            bookString += book.getTitle() + " ";
+//                        } else {
+//                            bookString += book.getTitle() + ", ";
+//                        }
+//                        count++;
+//                }
+//                    System.out.println("Books: " + bookString + "\n");
+                }
 
-                System.out.println("Enter Isbn");
-                String isbn = input.next();
-                BookDatabaseManager.getBookISBN(isbn).printBookInfo(System.out);
             }
             else if(choice == 3){
                 System.out.println("Enter ISBN");
