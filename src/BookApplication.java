@@ -1,9 +1,9 @@
 import java.util.List;
 import java.util.Scanner;
 
-public class Tester {
+public class BookApplication {
     public static void main(String[] args) {
-        Scanner input = new Scanner(System.in);
+        Scanner input= new Scanner(System.in);
         List<Book> bookList = BookDatabaseManager.getAllBooks();
         List<Author> authorList = BookDatabaseManager.getAllAuthors();
 
@@ -13,9 +13,9 @@ public class Tester {
         do {
             System.out.println("\n\nWelcome to Book Store");
             System.out.println("Navigation Menu");
-            System.out.println("Enter 1 to Print all the books from the database ");
-            System.out.println("Enter 2 to show book Info by ISBN ");
-            System.out.println("Enter 3 to Add book");
+            System.out.println("Enter 1 to Print all the books from the database (showing the authors)");
+            System.out.println("Enter 2 to Print all the authors from the database (showing the books)");
+            System.out.println("Enter 3 to Add a book to the database for an existing author ");
             System.out.println("Enter 4 to show authors Books");
             System.out.println("Enter 5 to Add a new author");
             System.out.println("Enter 6 to Quit");
