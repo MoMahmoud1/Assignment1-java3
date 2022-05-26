@@ -1,22 +1,23 @@
 import java.io.PrintStream;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Author {
     private int id;
     private String firstName;
     private String lastName;
-    private List<Book> bookList = new ArrayList<>();
+    private List<Book> bookList;
 
+<<<<<<<<< Temporary merge branch 1
+=========
+    public Author() {
+    }
+
+>>>>>>>>> Temporary merge branch 2
     public Author(int id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-    }
 
-    public Author(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
     public Author(int id, String firstName, String lastName, List<Book> bookList) {
@@ -58,10 +59,10 @@ public class Author {
         this.bookList = bookList;
     }
 
-    public void printAuthorInfo(PrintStream printStream){
-        printStream.printf("\nId: %d \t\t First Name: %s \t\t Last Name: %s ",
+    public void printAuthorsInfo(PrintStream printStream){
+        printStream.printf("\nAuthor ID: %d \t\t First Name: %s \t\t Last Name: %s",
                 this.getId(),this.getFirstName(),this.getLastName());
 
-
     }
+
 }

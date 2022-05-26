@@ -6,14 +6,8 @@ import java.util.List;
 public class BookDatabaseManager {
     private List<Book> bookList = new ArrayList<>();
     private List<Author> authorList = new ArrayList<>();
-
-//    LinkedList bookList = new LinkedList();
-//    LinkedList authorList = new LinkedList();
     public BookDatabaseManager(){
-     loadBooks();
-     loadAuthors();
-//        bookInfo();
-//        authorInfo();
+        databaseInfo();
     }
 
     public List<Book> getBookList() {
@@ -23,14 +17,15 @@ public class BookDatabaseManager {
         return authorList;
     }
 
-    public void bookInfo(){
-
+    public void databaseInfo(String query){
         try (
                 Connection connection = getConnection();
                 Statement statement = connection.createStatement();
         ){
-            String SqlQuery = " SELECT * FROM titles";
+            String SqlQuery = "SELECT * FROM "+BookDatabaseSQL.Book_TABLE_NAME;
             ResultSet resultSet = statement.executeQuery(SqlQuery);
+            if (SqlQuery.contains(BookDatabaseSQL.Book_TABLE_NAME)) {
+
             while (resultSet.next()) {
                 Book book = new Book(resultSet.getString(BookDatabaseSQL.Book_COL_NAME_ISBN),
                         resultSet.getString(BookDatabaseSQL.Book_COL_NAME_TITLE),
@@ -56,24 +51,10 @@ public class BookDatabaseManager {
                 }
                 this.getBookList().add(book);
             }
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void authorInfo(){
-        try (Connection connection = getConnection();
-            Statement statement = connection.createStatement();
-            ) {
-
-                String SqlQuery = " SELECT * FROM "+AuthorDatabaseSQL.AUTHORS_TABLE_AUTHOR_NAME;
-                ResultSet resultSet = statement.executeQuery(SqlQuery);
+            }
+            else {
                 while (resultSet.next()) {
-                    Author author = new Author(resultSet.getInt(AuthorDatabaseSQL.AUTHOR_COL_NAME_ID),
-                            resultSet.getString(AuthorDatabaseSQL.AUTHOR_COL_NAME_FIRSTNAME),
+                    Author author = new Author(resultSet.getInt(AuthorDatabaseSQL.AUTHOR_COL_NAME_ID), resultSet.getString(AuthorDatabaseSQL.AUTHOR_COL_NAME_LASTNAME),
                             resultSet.getString(AuthorDatabaseSQL.AUTHOR_COL_NAME_LASTNAME));
 
                     String sql = "Select t.isbn, t.title, t.editionNumber, t.copyright " +
@@ -83,26 +64,23 @@ public class BookDatabaseManager {
                             "ON ai.authorID = a.authorID " +
                             "where a.authorID = ?";
 
+                    PreparedStatement pstmt = connection.prepareStatement(sql);
+                    pstmt.setInt(1, author.getId());
+                    ResultSet rsBooks = pstmt.executeQuery();
 
-                    PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                    preparedStatement.setInt(1, author.getId());
-                    ResultSet resultSet1 = preparedStatement.executeQuery();
-
-                    while (resultSet1.next()) {
-                        Book book = new Book(resultSet1.getString(BookDatabaseSQL.Book_COL_NAME_ISBN),
-                                resultSet1.getString(BookDatabaseSQL.Book_COL_NAME_TITLE),
-                                resultSet1.getInt(BookDatabaseSQL.Book_COL_NAME_EDITION_NUMBER),
-                                resultSet1.getString(BookDatabaseSQL.Book_COL_NAME_COPYRIGHT));
+                    while (rsBooks.next()) {
+                        Book book = new Book(rsBooks.getString(BookDatabaseSQL.Book_COL_NAME_ISBN), rsBooks.getString(BookDatabaseSQL.Book_COL_NAME_TITLE),
+                                rsBooks.getInt(BookDatabaseSQL.Book_COL_NAME_EDITION_NUMBER), rsBooks.getString(BookDatabaseSQL.Book_COL_NAME_COPYRIGHT));
                         author.getBookList().add(book);
                     }
                     this.getAuthorList().add(author);
                 }
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        }
-
+    }
 
     public static List<Book> getAllBooks(){
         LinkedList bookList = new LinkedList();
@@ -144,60 +122,16 @@ public class BookDatabaseManager {
         return authorList;
     }
 
-
-
-    public void addBook( Book book){
-        try (Connection connection = getConnection();)
-        {
-            String sqlQuery = "INSERT into "+ BookDatabaseSQL.Book_TABLE_NAME +
-                    " Values (?, ?, ?, ?)";
-            String SQLAuthorISBN = "INSERT into authorisbn (authorID, isbn)" +
-                    "Values (?, ?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, book.getIsbn());
-            preparedStatement.setString(2, book.getTitle());
-            preparedStatement.setInt(3,book.getAdditionNumber());
-            preparedStatement.setString(4, book.getCopyright());
-            preparedStatement.executeQuery();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        this.getBookList().clear();
-        loadBooks();
-        bookInfo();
-    }
-
-    public void addNewAuthor(Author author){
-
-        try (Connection connection = getConnection();){
-            String SQLAuthors= "INSERT into authors (authorID, firstName, lastName)" +
-                    "Values (?, ?, ?)";
-
-            PreparedStatement preparedStatement = connection.prepareStatement(SQLAuthors);
-            preparedStatement.setInt (1, author.getId());
-            preparedStatement.setString(2, author.getFirstName());
-            preparedStatement.setString(3, author.getLastName());
-            preparedStatement.execute();
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        this.getAuthorList().clear();
-        loadAuthors();
-
-    }
-
     public void loadBooks(){
-        bookInfo();
+        String querySQL = "Select * from titles";
+        databaseInfo(querySQL);
     }
 
     public void loadAuthors(){
-        authorInfo();
+        String querySQL = "Select * from authors";
+        databaseInfo(querySQL);
     }
+
 
 
     public static Book getBookISBN(String isbn){
@@ -274,10 +208,11 @@ public class BookDatabaseManager {
            return DriverManager.getConnection(BookDatabaseSQL.DB_URL,BookDatabaseSQL.USER,BookDatabaseSQL.PASS);
     }
 
-    private static class BookDatabaseSQL{
+    private class BookDatabaseSQL{
         public static final String DB_URL= "jdbc:mariadb://localhost:3307/books";
         public static final String USER= "root";
         public static final String PASS= "Mohamed@12345";
+
 
         public static final String Book_TABLE_NAME= "titles";
         public static final String Book_COL_NAME_ISBN= "isbn";
@@ -285,10 +220,15 @@ public class BookDatabaseManager {
         public static final String Book_COL_NAME_EDITION_NUMBER= "editionNumber";
         public static final String Book_COL_NAME_COPYRIGHT= "copyright";
     }
-    private static class AuthorDatabaseSQL{
+
+    private class AuthorDatabaseSQL{
         public static final String AUTHORS_TABLE_AUTHOR_NAME= "authors";
         public static final String AUTHOR_COL_NAME_ID= "authorID";
         public static final String AUTHOR_COL_NAME_FIRSTNAME= "firstName";
         public static final String AUTHOR_COL_NAME_LASTNAME= "lastName";
+
+
+
+
     }
 }
